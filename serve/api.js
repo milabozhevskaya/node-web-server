@@ -40,13 +40,9 @@ async function getCryptoInfo() {
 }
 
 async function makeFileList(path = '.') {
-  console.log('start');
   const dirContent = await fs.promises.readdir(path, { withFileTypes: true });
-  console.log(dirContent);
   const promises = dirContent.map(async (item) => {
-    const children = item.isFile() && null;
-    // const children = item.isFile() ? null : await makeFileList(`${path}/${item.name}`);
-    console.log(children);
+    const children = item.isFile() || item.name.startsWith('.') ? null : await makeFileList(`${path}/${item.name}`);
     return {name: item.name, children}
   });
   return Promise.all(promises);
