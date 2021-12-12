@@ -17,5 +17,6 @@
   "bugs": {
     "url": "https://github.com/bo-mila/node-web-server/issues"
   },
-  "homepage": "https://github.com/bo-mila/node-web-server#readme"
+  "homepage": "https://github.com/bo-mila/node-web-server#readme",
+  "engines": {"node": "14.16.1"}
 }
