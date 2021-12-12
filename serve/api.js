@@ -44,7 +44,8 @@ async function makeFileList(path = '.') {
   const dirContent = await fs.promises.readdir(path, { withFileTypes: true });
   console.log(dirContent);
   const promises = dirContent.map(async (item) => {
-    const children = item.isFile() ? null : await makeFileList(`${path}/${item.name}`);
+    const children = item.isFile() && null;
+    // const children = item.isFile() ? null : await makeFileList(`${path}/${item.name}`);
     console.log(children);
     return {name: item.name, children}
   });
