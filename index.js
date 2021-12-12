@@ -1,3 +1,4 @@
+const port = process.env.PORT || 3000;
 const http = require('http');
 // const url = require('url');
 const { createServer } = http;
@@ -14,6 +15,7 @@ const server = createServer((request, response) => {
   serveFile(request.url, response);
 });
 
-server.listen(3000, () => console.log('server started at http://localhost:3000'));
+
+server.listen(port, () => console.log('server started at http://localhost:3000'));
 
 global.count = 0;
