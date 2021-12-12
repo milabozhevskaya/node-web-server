@@ -40,11 +40,14 @@ async function getCryptoInfo() {
 }
 
 async function makeFileList(path = '.') {
-  // const dirContent = await fs.promises.readdir(path, { withFileTypes: true });
-  // const promises = dirContent.map(async (item) => {
-  //   const children = item.isFile() ? null : await makeFileList(`${path}/${item.name}`);
-  //   return {name: item.name, children}
-  // });
-  // return Promise.all(promises);
-  return Promise.all((await fs.promises.readdir(path, { withFileTypes: true })).map(async (item) => ({name: item.name, children: item.isFile() ? null : await makeFileList(`${path}/${item.name}`)})));
+  console.log('start');
+  const dirContent = await fs.promises.readdir(path, { withFileTypes: true });
+  console.log(dirContent);
+  const promises = dirContent.map(async (item) => {
+    const children = item.isFile() ? null : await makeFileList(`${path}/${item.name}`);
+    console.log(children);
+    return {name: item.name, children}
+  });
+  return Promise.all(promises);
+  // return Promise.all((await fs.promises.readdir(path, { withFileTypes: true })).map(async (item) => ({name: item.name, children: item.isFile() ? null : await makeFileList(`${path}/${item.name}`)})));
 }
