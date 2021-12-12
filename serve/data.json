@@ -1,0 +1,74 @@
+[
+  {
+    "name": "Bitcoin",
+    "symbol": "BTC",
+    "capital": "₽77,538,074,705,260",
+    "price": "₽4,105,783.29",
+    "resp": "18 885 087",
+    "vio": "$2947163938",
+    "percent": "0,17%"
+  },
+  {
+    "name": "Ethereum",
+    "symbol": "ETH",
+    "capital": "₽36,256,839,045,018",
+    "price": "₽305,916.22",
+    "resp": "118518852",
+    "vio": "$16343181897",
+    "percent": "0,24%"
+  },
+  {
+    "name": "Binance Coin",
+    "symbol": "BNB",
+    "capital": "₽36,256,839,045,018",
+    "price": "₽305,916.22",
+    "resp": "151852",
+    "vio": "$163431897",
+    "percent": "0,24%"
+  },
+  {
+    "name": "Tether",
+    "symbol": "USDT",
+    "capital": "₽36,256,839,045,018",
+    "price": "₽305,916.22",
+    "resp": "151852",
+    "vio": "$163431897",
+    "percent": "0,24%"
+  },
+  {
+    "name": "Solana",
+    "symbol": "SOL",
+    "capital": "₽36,256,839,045,018",
+    "price": "₽305,916.22",
+    "resp": "151852",
+    "vio": "$163431897",
+    "percent": "0,24%"
+  },
+  {
+    "name": "Cardano",
+    "symbol": "ADA",
+    "capital": "₽36,256,839,045,018",
+    "price": "₽305,916.22",
+    "resp": "151852",
+    "vio": "$163431897",
+    "percent": "0,24%"
+  },
+  {
+    "name": "XRP",
+    "symbol": "XRP",
+    "capital": "₽36,256,839,045,018",
+    "price": "₽305,916.22",
+    "resp": "151852",
+    "vio": "$163431897",
+    "percent": "0,24%"
+  },
+  {
+    "name": "USD Coin",
+    "symbol": "USDC",
+    "capital": "₽36,256,839,045,018",
+    "price": "₽305,916.22",
+    "resp": "151852",
+    "vio": "$163431897",
+    "percent": "0,24%"
+  }
+]
