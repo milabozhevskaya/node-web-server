@@ -24,6 +24,9 @@ const router = {
   // },
   list(response) {
     makeFileList().then(list => response.end(JSON.stringify(list)));
+  },
+  uptime(response) {
+    response.end(process.uptime() * 1000 + '');
   }
 };
 
