@@ -7,7 +7,7 @@ btn.addEventListener('click', () => {
   enteredNumber.innerHTML = '0';
 })
 
-setInterval(updateCountAsync, 1000);
+setInterval(updateCountAsync, 60_000);
 
 function updateCount() {
   fetch('/api/count')
@@ -55,11 +55,18 @@ getBtn.addEventListener('click', () => {
 });
 
 const list = document.querySelector('.list');
+const apiList = document.querySelector('.api');
 
 showFileList();
 
 function showFileList() {
-  getFileList().then(showList);
+  getFileList().then(renderFileList);
+}
+
+showEndpointList();
+
+function showEndpointList() {
+  getEndpointList().then(renderEndpointList);
 }
 // async function showFileList() {
 //   const fileList = await getFileList();
@@ -67,7 +74,7 @@ function showFileList() {
 // }
 
 
-function showList(arr, ul = list) {
+function renderFileList(arr, ul = list) {
   ul.replaceChildren(...arr.map(({name, children}) => {
     const li = document.createElement('li');
     if (!children) {
@@ -78,7 +85,7 @@ function showList(arr, ul = list) {
       const list = document.createElement('ul');
       li.append(details);
       details.append(summary, list);
-      showList(children, list);
+      renderFileList(children, list);
       summary.append(name);
     }
     // li.innerHTML = !children ? name : `<details><summary>${name}</summary>dirContent</details>`;
@@ -87,8 +94,25 @@ function showList(arr, ul = list) {
   }));
 }
 
+function renderEndpointList(obj, dl = apiList) {
+  dl.replaceChildren(...Object.entries(obj).flatMap(([route, description]) => {
+    console.log(route, description);
+    const dt = document.createElement(`dt`);
+    const dd = document.createElement(`dd`);
+    dt.innerText = '/api/' + route;
+    dd.innerText = description;
+
+    return [dt, dd];
+  }));
+}
+
 function getFileList() {
-  return fetch('/api/list')
+  return fetch('/api/listFiles')
+    .then(response => response.json());
+}
+
+function getEndpointList() {
+  return fetch('/api/endpoints')
     .then(response => response.json());
 }
 // async function getFileList() {

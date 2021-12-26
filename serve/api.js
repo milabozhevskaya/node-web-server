@@ -2,32 +2,55 @@ module.exports = handleApi;
 
 const fs = require('fs');
 
-function handleApi(request, response) {
+async function handleApi(request, response) {
   const route = request.url.slice(5);
-  router[route]?.(response);
+  const payload = await router[route]?.(response);
+  requestLog.push({
+    timestamp: Date.now(),
+    route,
+    responseSize: payload.length,
+  })
+  response.end(payload);
 }
+
+const requestLog = [
+  // {timestamp, route, responseSize}
+];
 
 const router = {
   reset(response) {
     global.count = 0;
-    response.end('reset count');
+    return 'reset count';
   },
   count(response) {
-    response.end('' + global.count);
+   return '' + global.count;
   },
   data(response) {
-    response.end(JSON.stringify(data));
+    return JSON.stringify(data);
     // getCryptoInfo().then(info => response.end(JSON.stringify(info)));
   },
   // async list(response) {
   //   response.end(JSON.stringify(await makeFileList()));
   // },
-  list(response) {
-    makeFileList().then(list => response.end(JSON.stringify(list)));
+  listFiles(response) {
+    return makeFileList().then(list => JSON.stringify(list));
   },
   uptime(response) {
-    response.end(process.uptime() * 1000 + '');
+    return process.uptime() * 1000 + '';
+  },
+  endpoints(response) {
+    const routeMap = Object.keys(router).map(route => [route, routeDescriptor[route]]);
+    return JSON.stringify(Object.fromEntries(routeMap));
   }
+};
+
+const routeDescriptor = {
+  reset: 'Reset visit counter',
+  count: 'Get visite count',
+  data: 'Get cryptocurrencies',
+  listFiles: 'Get folder/files structure',
+  uptime: 'Get total ms passed from server start',
+  endPoints: 'Get list of available endpoints'
 };
 
 let count = 0;
