@@ -5,44 +5,73 @@ const fs = require('fs');
 async function handleApi(request, response) {
   const route = request.url.slice(5);
   const payload = await router[route]?.(response);
-  requestLog.push({
-    timestamp: Date.now(),
-    route,
-    responseSize: payload.length,
-  })
+  logApiRequest(route, payload.length);
   response.end(payload);
 }
 
-const requestLog = [
-  // {timestamp, route, responseSize}
-];
+function logApiRequest(route, length) {
+  const record = `${new Date().toLocaleString('en-CA', {hourCycle: 'h24'})}\t${route}\tresponse length: ${length}\n`;
+  fs.promises.appendFile('./logs/api.log', record);
+}
 
 const router = {
-  reset(response) {
+  reset() {
     global.count = 0;
     return 'reset count';
   },
-  count(response) {
+  count() {
    return '' + global.count;
   },
-  data(response) {
+  data() {
     return JSON.stringify(data);
     // getCryptoInfo().then(info => response.end(JSON.stringify(info)));
   },
   // async list(response) {
   //   response.end(JSON.stringify(await makeFileList()));
   // },
-  listFiles(response) {
+  listFiles() {
     return makeFileList().then(list => JSON.stringify(list));
   },
-  uptime(response) {
+  uptime() {
     return process.uptime() * 1000 + '';
   },
-  endpoints(response) {
+  endpoints() {
     const routeMap = Object.keys(router).map(route => [route, routeDescriptor[route]]);
     return JSON.stringify(Object.fromEntries(routeMap));
-  }
+  },
+  async serverLog() {
+    const logStr = await fs.promises.readFile('./logs/server.log', 'utf-8');
+    const logs = parseLog(logStr);
+    return JSON.stringify(logs)
+  },
+  async apiLog() {
+    const logStr = await fs.promises.readFile('./logs/api.log', 'utf-8');
+    const logs = parseLog(logStr);
+    return JSON.stringify(logs)
+  },
 };
+
+function parseLog(text) {
+  const lines = text.split('\n');
+  const items = lines.map(line => line.split('\t'));
+  const records = items.map(([dateTime, action, ...rest]) => ({
+    dateTime,
+    action,
+    ...Object.fromEntries(rest.map(item => {
+      const [key, value] = item.split(': ');
+      return [key.toCamelCase(), value];
+    }))
+  }));
+  return records;
+}
+String.prototype.toCamelCase = function toCamelCase() {
+  const words = this.split(' ');
+  return words.map((word, i) => i ? word.toCapitalCase() : word.toLowerCase()).join('');
+}
+
+String.prototype.toCapitalCase = function toCapitalCase() {
+  return this[0].toUpperCase() + this.slice(1).toLowerCase();
+}
 
 const routeDescriptor = {
   reset: 'Reset visit counter',

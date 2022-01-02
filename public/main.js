@@ -46,6 +46,21 @@ function promptAsync() {
   });
 }
 
+const visitStartTime = document.querySelector('.server-info__time');
+
+showVisitStart();
+
+function showVisitStart() {
+  fetch('/api/uptime')
+    .then((response) => response.text())
+    .then((time) => visitStartTime.innerHTML = buildDate(time));
+}
+
+function buildDate(time) {
+  const newDate = new Date(Date.now() - time);
+  return newDate.toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'medium' });
+  // return `${month[mon - 1]} ${day}, ${+hour}:${sec}`;
+}
 
 window.getBtn = document.querySelector('#crypto');
 getBtn.addEventListener('click', () => {

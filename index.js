@@ -17,7 +17,10 @@ const server = createServer((request, response) => {
 });
 
 
-server.listen(port, () => console.log('server started at http://localhost:3000'));
+server.listen(port, () => {
+  console.log('server started at http://localhost:3000');
+  logServerStart();
+});
 
 global.count = 0;
 
@@ -26,3 +29,8 @@ fs.watchFile('./serve/api.js', () => {
   delete require.cache[path];
   handleApi = require('./serve/api');
 });
+
+function logServerStart() {
+  const record = new Date().toLocaleString('en-CA', {hourCycle: 'h24'}) + '\tServer starts...\n';
+  fs.promises.appendFile('./logs/server.log', record);
+}

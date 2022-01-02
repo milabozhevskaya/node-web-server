@@ -6,19 +6,46 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./style.css">
   <script defer src="./main.js" type="module"></script>
-  <title>Document</title>
+  <title>Monitoring</title>
 </head>
 <body>
-  My world
-  <img src="./arrow_down.svg" alt="">
-  You are visitor number <div class="number">COUNT</div>
-  <button>сбросить</button>
+  <div class="wrapper">
+    <header></header>
+    <main>
+      <h2 class="title">
+        <span>Monitoring of server</span>
+        <img src="./arrow_down.svg" alt="">
+      </h2>
+      <ul class="server-info">
+        <li class="server-info__item">
+          <span>Server started at</span>
+          <span class="server-info__time"></span>
+        </li>
+      </ul>
 
-  <ul class="list"></ul>
-  <button id="crypto">GET</button>
-
-  <table></table>
-
-  <dl class="api"></dl>
+      <h2 class="visitor-title">
+        <span>Monitoring of you</span>
+      </h2>
+      <ul class="visitor-info">
+        <li class="visitor-info__item">
+          <span>You are visitor number</span>
+          <span class="number">COUNT</span>
+          <button>Reset visitor number</button>
+        </li>
+        <li class="visitor-info__item">
+          <span>You visited this site at</span>
+          <span class="visitor-info__start-time">TIME</span>
+        </li>
+      </ul>
+    
+      <ul class="list"></ul>
+      <button id="crypto">GET</button>
+    
+      <table></table>
+    
+      <dl class="api"></dl>
+    
+    </main>
+  </div>
 </body>
 </html>
