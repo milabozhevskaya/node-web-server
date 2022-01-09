@@ -54,7 +54,7 @@ const router = {
     return JSON.stringify(logs)
   },
   async errorLog() {
-    const logStr = await fs.promises.readFile('./logs/error.log', 'utf-8');
+    const logStr = await fs.promises.readFile('./logs/error.log', 'utf-8').catch(() => '');
     const logs = parseLog(logStr);
     return JSON.stringify(logs)
   },
