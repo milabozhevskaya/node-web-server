@@ -64,6 +64,7 @@ function parseLog(text) {
   }));
   return records;
 }
+
 String.prototype.toCamelCase = function toCamelCase() {
   const words = this.split(' ');
   return words.map((word, i) => i ? word.toCapitalCase() : word.toLowerCase()).join('');

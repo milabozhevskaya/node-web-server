@@ -1,3 +1,4 @@
+process.on('uncaughtException', logError);
 const port = process.env.PORT || 3000;
 const http = require('http');
 const fs = require('fs');
@@ -27,10 +28,19 @@ global.count = 0;
 fs.watchFile('./serve/api.js', () => {
   const path = require.resolve('./serve/api');
   delete require.cache[path];
-  handleApi = require('./serve/api');
+  try {
+    handleApi = require('./serve/api');
+  } catch (err) {
+    logError(err);
+  }
 });
 
 function logServerStart() {
-  const record = new Date().toLocaleString('en-CA', {hourCycle: 'h24'}) + '\tServer starts...\n';
+  const record = new Date().toLocaleString('en-CA', { hourCycle: 'h24' }) + '\tServer starts...\n';
   fs.promises.appendFile('./logs/server.log', record);
+}
+
+function logError(err) {
+  const record = new Date().toLocaleString('en-CA', { hourCycle: 'h24' }) + `\t${err.name}\tmsg: ${err.message}\tat: ${err.stack.match(/[\\\/][^:\\\/]*:[:\d]*/)[0]}\n`;
+  fs.promises.appendFile('./logs/error.log', record);
 }
