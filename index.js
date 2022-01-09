@@ -9,7 +9,7 @@ let handleApi = require('./serve/api');
 const serveFile = require('./serve/fileServe');
 
 const server = createServer((request, response) => {
-  if (request.url.startsWith('/api/')) {
+  if (request.url.match(/\/api(\/|$)/)) {
     handleApi(request, response);
     return;
   }

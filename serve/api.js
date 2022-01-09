@@ -1,9 +1,10 @@
 module.exports = handleApi;
 
+const path = process.env.ROOT_PATH || `http://localhost:3000/api/`;
 const fs = require('fs');
 
 async function handleApi(request, response) {
-  const route = request.url.slice(5);
+  const route = request.url.slice(5) || 'endpoints';
   const payload = await router[route]?.(response);
   logApiRequest(route, payload.length);
   response.end(payload);
@@ -36,7 +37,10 @@ const router = {
     return process.uptime() * 1000 + '';
   },
   endpoints() {
-    const routeMap = Object.keys(router).map(route => [route, routeDescriptor[route]]);
+    const routeMap = Object.keys(router).map(route => [route, {
+      description: routeDescriptor[route],
+      path: path + route
+    }]);
     return JSON.stringify(Object.fromEntries(routeMap));
   },
   async serverLog() {
@@ -46,6 +50,11 @@ const router = {
   },
   async apiLog() {
     const logStr = await fs.promises.readFile('./logs/api.log', 'utf-8');
+    const logs = parseLog(logStr);
+    return JSON.stringify(logs)
+  },
+  async errorLog() {
+    const logStr = await fs.promises.readFile('./logs/error.log', 'utf-8');
     const logs = parseLog(logStr);
     return JSON.stringify(logs)
   },
@@ -80,7 +89,7 @@ const routeDescriptor = {
   data: 'Get cryptocurrencies',
   listFiles: 'Get folder/files structure',
   uptime: 'Get total ms passed from server start',
-  endPoints: 'Get list of available endpoints'
+  endpoints: 'Get list of available endpoints'
 };
 
 let count = 0;
