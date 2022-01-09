@@ -1,2 +1,3 @@
 /.vscode
-/logs
+/logs/api.log
+/logs/server.log
