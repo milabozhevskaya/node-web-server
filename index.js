@@ -1,7 +1,9 @@
+const { logServerStart, logError } = require('./serve/logger');
 process.on('uncaughtException', logError);
 const port = process.env.PORT || 3000;
 const http = require('http');
 const fs = require('fs');
+require('./serve/customMethods.js');
 // const url = require('url');
 const { createServer } = http;
 // let urlRequest = url.parse(request.url, true);
@@ -35,12 +37,3 @@ fs.watchFile('./serve/api.js', () => {
   }
 });
 
-function logServerStart() {
-  const record = new Date().toLocaleString('en-CA', { hourCycle: 'h24' }) + '\tServer starts...\n';
-  fs.promises.appendFile('./logs/server.log', record);
-}
-
-function logError(err) {
-  const record = new Date().toLocaleString('en-CA', { hourCycle: 'h24' }) + `\t${err.name}\tmsg: ${err.message}\tat: ${err.stack.match(/[\\\/][^:\\\/]*:[:\d]*/)[0]}\n`;
-  fs.promises.appendFile('./logs/error.log', record);
-}

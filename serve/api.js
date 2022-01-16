@@ -1,19 +1,16 @@
 module.exports = handleApi;
 
+const { logApiRequest, parseLog } = require('./logger');
 const path = process.env.ROOT_PATH || `http://localhost:3000/api/`;
 const fs = require('fs');
 
 async function handleApi(request, response) {
   const route = request.url.slice(5) || 'endpoints';
-  const payload = await router[route]?.(response);
+  const payload = await router[route]?.(response) ?? 'This api is not implemented';
   logApiRequest(route, payload.length);
   response.end(payload);
 }
 
-function logApiRequest(route, length) {
-  const record = `${new Date().toLocaleString('en-CA', {hourCycle: 'h24'})}\t${route}\tresponse length: ${length}\n`;
-  fs.promises.appendFile('./logs/api.log', record);
-}
 
 const router = {
   reset() {
@@ -60,28 +57,6 @@ const router = {
   },
 };
 
-function parseLog(text) {
-  const lines = text.split('\n');
-  const items = lines.map(line => line.split('\t'));
-  const records = items.map(([dateTime, action, ...rest]) => ({
-    dateTime,
-    action,
-    ...Object.fromEntries(rest.map(item => {
-      const [key, value] = item.split(': ');
-      return [key.toCamelCase(), value];
-    }))
-  }));
-  return records;
-}
-
-String.prototype.toCamelCase = function toCamelCase() {
-  const words = this.split(' ');
-  return words.map((word, i) => i ? word.toCapitalCase() : word.toLowerCase()).join('');
-}
-
-String.prototype.toCapitalCase = function toCapitalCase() {
-  return this[0].toUpperCase() + this.slice(1).toLowerCase();
-}
 
 const routeDescriptor = {
   reset: 'Reset visit counter',
