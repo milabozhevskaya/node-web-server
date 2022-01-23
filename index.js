@@ -1,5 +1,6 @@
 const { logServerStart, logError } = require('./serve/logger');
-process.on('uncaughtException', logError);
+process.on('uncaughtException', logError).on('unhandledRejection', logError).on('warning', logError);
+
 const port = process.env.PORT || 3000;
 const http = require('http');
 const fs = require('fs');

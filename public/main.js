@@ -110,12 +110,11 @@ function renderFileList(arr, ul = list) {
 }
 
 function renderEndpointList(obj, dl = apiList) {
-  dl.replaceChildren(...Object.entries(obj).flatMap(([route, description]) => {
-    console.log(route, description);
+  dl.replaceChildren(...Object.entries(obj).flatMap(([route, descriptor]) => {
     const dt = document.createElement(`dt`);
     const dd = document.createElement(`dd`);
     dt.innerText = '/api/' + route;
-    dd.innerText = description;
+    dd.innerText = descriptor.description;
 
     return [dt, dd];
   }));
@@ -134,3 +133,6 @@ function getEndpointList() {
 //   const response = await fetch('/api/data');
 //   return await response.json();
 // }
+
+const form = document.querySelector('.form');
+form.addEventListener('submit', () => {});

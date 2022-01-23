@@ -1,3 +1,14 @@
 * {
   color: red;
 }
+
+form {
+  color: black;
+}
+
+.form__sub {
+  background-color: black;
+  color: white;
+  padding: 6px 18px;
+  border-radius: 4px;
+}

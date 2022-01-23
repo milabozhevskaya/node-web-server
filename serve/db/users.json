@@ -1,16 +1,30 @@
 [
   {
-    "id": 10,
+    "id": 1,
     "name": "Clementina DuBuque",
     "username": "Moriah.Stanton",
     "email": "Rey.Padberg@karina.biz",
     "password": "12345"
   },
   {
-    "id": 11,
+    "id": 2,
     "name": "Clementina DuBuque",
     "username": "qwerty",
     "email": "Rey.Padberg@karina.biz",
     "password": "12345"
+  },
+  {
+    "id": 3,
+    "name": "pete",
+    "username": "PeterPen23",
+    "email": "peter3.peter@gmail.com",
+    "password": "1234#5gfdF"
+  },
+  {
+    "id": 4,
+    "name": "pete",
+    "username": "PeterPen33",
+    "email": "peter33.peter@gmail.com",
+    "password": "1234#5gfdF"
   }
 ]

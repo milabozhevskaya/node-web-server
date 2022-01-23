@@ -13,7 +13,7 @@ function logServerStart() {
 }
 
 function logError(err) {
-  const record = new Date().toLocaleString('en-CA', { hourCycle: 'h24' }) + `\t${err.name}\tmsg: ${err.message}\tat: ${err.stack.match(/[\\\/][^:\\\/]*:[:\d]*/)[0]}\n`;
+  const record = new Date().toLocaleString('en-CA', { hourCycle: 'h24' }) + `\t${err.name}\tmsg: ${err.message}\tat: ${err.stack.match(/[\\\/][^:\\\/]*:[:\d]*/)?.[0]}\n`;
   fs.promises.appendFile('./logs/error.log', record);
 }
 
