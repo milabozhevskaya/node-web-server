@@ -30,3 +30,8 @@ function parseLog(text) {
   }));
   return records;
 }
+
+function logSession(session) {
+  const record = new Date().toLocaleString('en-CA', { hourCycle: 'h24' }) + '\tServer starts...\n';
+  fs.promises.appendFile('./logs/server.log', record);
+}
