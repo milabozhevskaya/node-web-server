@@ -1,4 +1,13 @@
-document.body.append('I-m here');
+const regForm = document.getElementById('registr');
+
+regForm.addEventListener('submit', (event) => {
+  fetch('http://localhost:3000/api/register', {
+    method: "POST",
+    body: JSON.stringify(Object.fromEntries(new FormData(regForm)))
+  }).then((response) => console.log(response));
+})
+
+// document.body.append('I-m here');
 const enteredNumber = document.querySelector('.number');
 
 const btn = document.querySelector('button');
@@ -33,7 +42,7 @@ function promptAsync() {
     dialog.close();
     dialog.remove();
   });
-  console.log(dialog)
+  console.log(dialog);
   dialog.show();
   return new Promise((resolve, reject) => {
     input.addEventListener('keyup', (event) => {
@@ -133,6 +142,3 @@ function getEndpointList() {
 //   const response = await fetch('/api/data');
 //   return await response.json();
 // }
-
-const form = document.querySelector('.form');
-form.addEventListener('submit', () => {});
