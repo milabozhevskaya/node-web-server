@@ -1,58 +1,140 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="./assets/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon/favicon-16x16.png">
+  <link rel="shortcut icon" href="./assets/favicon/favicon.ico" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Comforter&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Murecho:100,200,300,regular,500,600,700,800,900" rel="stylesheet" />
   <link rel="stylesheet" href="./style.css">
-  <script defer src="./main.js" type="module"></script>
+  <script src="./main.js" type="module"></script>
   <title>Monitoring</title>
 </head>
 <body>
   <div class="wrapper">
-    <header></header>
-    <main>
-      <h2 class="title">
-        <span>Monitoring of server</span>
-        <img src="./arrow_down.svg" alt="">
-      </h2>
-      <ul class="server-info">
-        <li class="server-info__item">
-          <span>Server started at</span>
-          <span class="server-info__time"></span>
-        </li>
-      </ul>
-
-      <h2 class="visitor-title">
-        <span>Monitoring of you</span>
-      </h2>
-      <ul class="visitor-info">
-        <li class="visitor-info__item">
-          <span>You are visitor number</span>
-          <span class="number">COUNT</span>
-          <button>Reset visitor number</button>
-        </li>
-        <li class="visitor-info__item">
-          <span>You visited this site at</span>
-          <span class="visitor-info__start-time">TIME</span>
-        </li>
-      </ul>
-    
-      <ul class="list"></ul>
-      <button id="crypto">GET</button>
-    
-      <table></table>
-    
-      <dl class="api"></dl>
-      <form action="" class="form">
-        <label for="" class="form__name">
-          <input type="text" id="name" class="form__input">
+    <header class="header">
+      <div class="container header__container">
+        <div class="logo header__logo">
+          <a href="./index.html" class="logo header__logo">
+            <svg class="logo__svg">
+              <use xlink:href="./assets/sprite/sprite.svg#logo"></use>
+            </svg>
+            <span>node web server</span>
+          </a>
+        </div>
+        <nav class="nav header__nav">
+          <ul class="nav__list">
+            <li class="nav__item">
+              <a href="" class="nav__ref" data-scroll="" data-i18n="nav_skills">1</a>
+            </li>
+            <li class="nav__item">
+              <a href="" class="nav__ref" data-scroll="" data-i18n="nav_portfolio">2</a>
+            </li>
+            <li class="nav__item">
+              <a href="" class="nav__ref" data-scroll="" data-i18n="nav_video">3</a>
+            </li>
+            <li class="nav__item">
+              <a href="" class="nav__ref" data-scroll="" data-i18n="nav_price">4</a>
+            </li>
+            <li class="nav__item">
+              <a href="#contacts" class="nav__ref" data-scroll="contacts" data-i18n="nav_contacts">Contacts</a>
+            </li>
+          </ul>
+        </nav>
+        <div class="languages header__languages">
+          <button data-lang="en">en</button>
+          <span>/</span>
+          <button data-lang="ru">ru</button>
+        </div>
+        <button class="header__theme theme">
+          <svg class="theme__svg sun">
+            <use xlink:href="./assets/sprite/sprite.svg#sun"></use>
+          </svg>
+          <svg class="theme__svg moon">
+            <use xlink:href="./assets/sprite/sprite.svg#moon"></use>
+          </svg>
+        </button>
+        <label class="nav__hamburger-menu hamburger-menu">
+          <input type="checkbox" class="hamburger-menu__input">
+          <div class="hamburger-menu__bars"></div>
         </label>
-        <label for="" class="form__pass">
-          <input type="text" id="pass" class="form__input">
-        </label>
-        <button class="form__sub">Submit</button>
-      </form>
+      </div>
+    </header>
+    <main class="main">
+      <div class="container">
+        <div class="main__form-wrapper">
+          <div class="main__form-container">
+            <h4 class="main__form-title">Registration</h4>
+            <form action="javascript:" id="registr" class="form form--registr">
+              <label class="form__name">
+                <input type="text" name="name" id="name-reg" class="form__input" placeholder="Your Name" value="PetePete">
+              </label>
+              <label class="form__username">
+                <input type="text" name="username" id="username-reg" class="form__input" placeholder="Your Login" value="PetePeteS">
+              </label>
+              <label class="form__email">
+                <input type="text" name="email" id="email-reg" class="form__input" placeholder="Your E-mail" value="PetePete@mail.ru">
+              </label>
+              <label class="form__pass">
+                <input type="text" name="password" id="pass-reg" class="form__input" placeholder="Your Password" value="PetePete33@">
+              </label>
+              <button class="form__submit"><span>Registration</span></button>
+            </form>
+          </div>
+        </div>
+        <div class="main__form-wrapper">
+          <div class="main__form-container">
+            <h4 class="main__form-title">LogIn</h4>
+            <form action="" id="auth" class="form form--auth">
+              <label for="" class="form__name">
+                <input type="text" id="name-auth" class="form__input" placeholder="Your Name">
+              </label>
+              <label for="" class="form__pass">
+                <input type="text" id="pass-auth" class="form__input" placeholder="Your Password">
+              </label>
+              <button class="form__submit"><span>LogIn</span></button>
+            </form>
+          </div>
+        </div>
+        <h2 class="title">
+          <span>Monitoring of server</span>
+          <img src="./arrow_down.svg" alt="">
+        </h2>
+        <ul class="server-info">
+          <li class="server-info__item">
+            <span>Server started at</span>
+            <span class="server-info__time"></span>
+          </li>
+        </ul>
+  
+        <h2 class="visitor-title">
+          <span>Monitoring of you</span>
+        </h2>
+        <ul class="visitor-info">
+          <li class="visitor-info__item">
+            <span>You are visitor number</span>
+            <span class="number">COUNT</span>
+            <button>Reset visitor number</button>
+          </li>
+          <li class="visitor-info__item">
+            <span>You visited this site at</span>
+            <span class="visitor-info__start-time">TIME</span>
+          </li>
+        </ul>
+      
+        <ul class="list"></ul>
+        <button id="crypto">GET</button>
+      
+        <table></table>
+      
+        <dl class="api"></dl>
+      </div>
     </main>
   </div>
 </body>

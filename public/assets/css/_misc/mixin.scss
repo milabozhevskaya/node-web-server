@@ -1,0 +1,13 @@
+
+@mixin font-size($startSize, $minSize) {
+  $addSize: $startSize - $minSize;
+  $addMinSize: $addSize + $addSize * 0.7;
+
+  @media (max-width: 768px) {
+    font-size: (#{$minSize + px});
+  }
+
+  @media (min-width: 769px) {
+    font-size: calc(#{$minSize + px} + (#{$addSize} / #{$maxWidth - 768}) * (100vw - 768px));
+  }
+}

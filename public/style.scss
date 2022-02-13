@@ -1,0 +1,30 @@
+:root {
+  --main-dark: #0a0909;
+  --main-light: #ebe4e2;
+  --main-red: #943434;
+  --red-light: #eaa1a1;
+  --white: #ffffff;
+  --grey: #c0c0c0;
+}
+
+html[data-theme='light'] {
+  --main-color: #0a0909;
+  --main-back: #ebe4e2;
+}
+
+html[data-theme='dark'] {
+  --main-color: #ebe4e2;
+  --main-back: #0a0909;
+}
+
+@import "./assets/css/_misc/normalize.scss";
+@import "./assets/css/_misc/media.scss";
+@import "./assets/css/_misc/layout.scss";
+@import "./assets/css/_misc/mixin.scss";
+
+@import "./assets/css/blocks/header.scss";
+@import "./assets/css/blocks/main.scss";
+@import "./assets/css/blocks/contacts.scss";
+@import "./assets/css/blocks/form.scss";
+@import "./assets/css/blocks/auth.scss";
+@import "./assets/css/blocks/footer.scss";
