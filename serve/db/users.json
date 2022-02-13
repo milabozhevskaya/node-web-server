@@ -1,30 +1,38 @@
 [
   {
     "id": 1,
-    "name": "Clementina DuBuque",
-    "username": "Moriah.Stanton",
-    "email": "Rey.Padberg@karina.biz",
-    "password": "12345"
+    "name": "pete",
+    "username": "PeterPen5",
+    "email": "peter5.peter@gmail.com",
+    "pwdHash": "039006dfc6c57afe62eba2d6db16e0464032f1bd60d31554569daddc71a0261cd444c935c4374a91"
   },
   {
     "id": 2,
-    "name": "Clementina DuBuque",
-    "username": "qwerty",
-    "email": "Rey.Padberg@karina.biz",
-    "password": "12345"
+    "name": "pete",
+    "username": "PeterPen6",
+    "email": "peter6.peter@gmail.com",
+    "pwdHash": "1b461f1e7d2507c11ff75a5aaad07f53242e81519bdaedeacc074f27f4642459e571182850a75887"
   },
   {
     "id": 3,
-    "name": "pete",
-    "username": "PeterPen23",
-    "email": "peter3.peter@gmail.com",
-    "password": "1234#5gfdF"
+    "name": "perepete",
+    "username": "Pete10",
+    "email": "djkj@jkj.jkj",
+    "pwdHash": "cf8b77dd9e2ba172f2a1238a09d11dafe4976913a454fa946fb61b8ba484b9b8edce43d6ff2108ef",
+    "token": "eSDhetYnje-P75HeIvBKE-SCubScm1vk-vGz0oWy0yv"
   },
   {
     "id": 4,
-    "name": "pete",
-    "username": "PeterPen33",
-    "email": "peter33.peter@gmail.com",
-    "password": "1234#5gfdF"
+    "name": "perepete",
+    "username": "Pete11",
+    "email": "djkj@jkj11.jkj",
+    "pwdHash": "0ef4c2bce05c6b8b120c96ad2076939761ead68b3abd50feb3ad2e625aaed1122039faa0c65c0249"
+  },
+  {
+    "id": 5,
+    "name": "PetePete",
+    "username": "PetePeteS",
+    "email": "PetePete@mail.ru",
+    "pwdHash": "343e591769910eb3c7430a08bbff1dd5fdb9065202cdb94f61e8d6fc454aaaa4f371ff979edbebc4"
   }
 ]

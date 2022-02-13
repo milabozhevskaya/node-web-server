@@ -1,18 +1,18 @@
 module.exports = handleApi;
 
+// debugger;
+const users = require('./users.js');
+const genID = require('./helpers/genID.js');
+const { hash, verify } = require('./helpers/crypto.js');
 const { logApiRequest, parseLog } = require('./logger');
 const path = process.env.ROOT_PATH || `http://localhost:3000/api/`;
 const fs = require('fs');
+const { request } = require('http');
 
-const genID = (() => {
-  let count = 1;
-  return () => count++;
-})();
-
-const users = require('./db/users.json').map(user => ({ ...user, id: genID()}));
+const sessions = global.sessions = [];
 
 const validator = {
-  register({name, username, email, password}) {
+  register({ name, username, email, password }) {
     return /^[A-Za-zА-Яа-яІіЇїЄєЁёҐґ ]{2,}$/.test(name) && /^\w{6,}$/.test(username) && /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email) && /^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/.test(password);
   }
 }
@@ -43,9 +43,13 @@ const router = {
   //   response.end(JSON.stringify(await makeFileList()));
   // },
   listFiles() {
-    return makeFileList();
+    return makeFileList('.', { size: true, lineCount: true});
   },
-  uptime() {
+  uptime(request) {
+    const token = request.headers.cookie.match(/nws_info_token=([^;]*)(;|$)/)?.[1];
+    if (!token || !sessions.some(session => session.token === token && session.expire > Date.now())) {
+      return { errors: ['Unauthorized request'] };
+    }
     return process.uptime() * 1000 + '';
   },
   endpoints() {
@@ -70,25 +74,19 @@ const router = {
   users() {
     return users;
   },
-  auth(request) {
-    const chunks = [];
-    request.on('data', (chunk) => chunks.push(chunk));
-    request.on('end', () => {
-      const body = JSON.parse(Buffer.concat(chunks).toString());
-      console.log(body);
-    })
-  },
   async auth(request, response) {
     const chunks = [];
     for await (const chunk of request) chunks.push(chunk);
     try {
       const body = JSON.parse(Buffer.concat(chunks).toString());
-      const user = users.find((user) => user.username === body.name);
-      if (user?.password !== body.password) return { success: false };
-
-      user.token = genToken();
-      response.setHeader('set-cookie', 'nws_info_token=' + user.token);
-      return { success: true, token: user.token };
+      const user = users.find((user) => user.username === body.username);
+      if (!user || !await verify(body.password, user.pwdHash)) return { success: false };
+      const token = genToken();
+      const start = Date.now();
+      sessions.push({id: genID(), userId: user.id, token, start, expire: start + 1 * 60e3});
+      storeAuthTS({ [user.username]: start });
+      response.setHeader('set-cookie', 'nws_info_token=' + token);
+      return { success: true, token };
     } catch (error) {
       return { errors: ['JSON data only'] };
     }
@@ -104,14 +102,15 @@ const router = {
 
       const isUsernameOccupied = users.some((user) => user.username === username);
       const isEmailOccupied = users.some((user) => user.email === email);
-      if (isUsernameOccupied || isEmailOccupied) return { errors: [...isUsernameOccupied ? ['username is occupied'] : [], ...isEmailOccupied ? ['email is occupied'] : [] ]};
+      if (isUsernameOccupied || isEmailOccupied) return { errors: [...isUsernameOccupied ? ['username is occupied'] : [], ...isEmailOccupied ? ['email is occupied'] : []] };
       const id = genID();
+      const pwdHash = await hash(password);
       users.push({
         id,
         name,
         username,
         email,
-        password,
+        pwdHash
       });
       fs.promises.writeFile('./serve/db/users.json', JSON.stringify(users, null, 2));
       return { success: true, id };
@@ -147,11 +146,21 @@ async function getCryptoInfo() {
   return data.map(({ name, percent }) => ({ name, percent }));
 }
 
-async function makeFileList(path = '.') {
+async function makeFileList(path = '.', options) {
   const dirContent = await fs.promises.readdir(path, { withFileTypes: true });
   const promises = dirContent.map(async (item) => {
-    const children = item.isFile() || item.name.startsWith('.') ? null : await makeFileList(`${path}/${item.name}`);
-    return { name: item.name, children }
+    const children = item.isFile() || item.name.startsWith('.') ? null : await makeFileList(`${path}/${item.name}`, options);
+    const dirEnt = { name: item.name, children };
+    if (options.size && item.isFile()) {
+      const { size } = await fs.promises.stat(`${path}/${item.name}`);
+      dirEnt.size = size;
+    }
+    if (options.lineCount && item.isFile()) {
+      const content = await fs.promises.readFile(`${path}/${item.name}`, 'utf-8');
+      dirEnt.lineCount = content.split('\n').length;
+    }
+    console.count();
+    return dirEnt;
   });
   return Promise.all(promises);
   // return Promise.all((await fs.promises.readdir(path, { withFileTypes: true })).map(async (item) => ({name: item.name, children: item.isFile() ? null : await makeFileList(`${path}/${item.name}`)})));
@@ -170,7 +179,8 @@ function validate(route) {
   return validator[route];
 }
 
-// {
-//   let count = 1;
-//   var genID = () => count++;
-// }
+async function storeAuthTS(obj) {
+  const path = './serve/db/lastAuthTimestamps.json';
+  const registry = JSON.parse(await fs.promises.readFile(path).catch(() => '{}'));
+  fs.promises.writeFile(path, JSON.stringify({...registry, ...obj}, null, 2));
+}
