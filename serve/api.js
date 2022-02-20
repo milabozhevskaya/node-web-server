@@ -10,17 +10,30 @@ const { register} = require('./register');
 const { auth} = require('./auth');
 const { logApiRequest } = require('./logger');
 const { logRoutes } = require('./logRoutes');
+const { qualifyAuth } = require('./qualifyAuth');
 
 const sessions = global.sessions = [];
 
 async function handleApi(request, response) {
   const route = request.url.slice(5) || 'endpoints';
-  let payload = await router[route]?.(request, response) ?? 'This api is not implemented';
+  const routeHandler = router[route];
+  let payload = null;
+
+  if (!routeHandler) {
+    payload = 'This api is not implemented';
+  } else if (secureList.includes(routeHandler)) {
+    payload = qualifyAuth(request);
+  }
+  if (!payload) {
+    payload = await routeHandler(request, response);
+  }
+
   if (typeof payload === 'object') {
     payload = JSON.stringify(payload);
     response.setHeader('content-type', 'application/json; charset=utf-8');
   }
   logApiRequest(route, payload.length);
+
   response.end(payload);
 }
 const router = {
@@ -34,6 +47,10 @@ const router = {
   register,
   ...logRoutes,
 };
+
+const secureList = [
+  uptime
+]
 
 function listFiles() {
   return makeFileList('.', { size: true, lineCount: true});

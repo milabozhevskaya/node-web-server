@@ -1,3 +1,5 @@
+Hot add api endpoint handler
+Hot Module Replacement
 Осуществить хранение данных о пользователях в гугл-таблицах
 Сделать tor в виде чек-листа
 В ендпоинте listFiles добавить summary size and lines на папках
