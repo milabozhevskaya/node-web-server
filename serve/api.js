@@ -1,7 +1,6 @@
 module.exports = handleApi;
 
 // debugger;
-const genID = require('./helpers/genID');
 const { reset, count } = require('./countVisits');
 const { makeFileList } = require('./makeFileList');
 const { getUsers } = require('./getUsers');
@@ -11,7 +10,6 @@ const { register} = require('./register');
 const { auth} = require('./auth');
 const { logApiRequest } = require('./logger');
 const { logRoutes } = require('./logRoutes');
-const fs = require('fs');
 
 const sessions = global.sessions = [];
 

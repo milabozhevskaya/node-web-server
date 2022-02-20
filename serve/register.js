@@ -2,12 +2,11 @@ const fs = require('fs');
 const { validate } = require('./validate');
 const { getUsers } = require('./getUsers');
 const { genID } = require('./helpers/genID.js');
+const { getBody } = require('./helpers/getBody');
 
 async function register(request) {
-  const chunks = [];
-  for await (const chunk of request) chunks.push(chunk);
   try {
-    const { name, username, email, password } = JSON.parse(Buffer.concat(chunks).toString());
+    const { name, username, email, password } = await getBody(request);
     if (!name || !username || !email || !password || !validate('register')({ name, username, email, password })) {
       return { errors: ['Invalid data'] };
     }

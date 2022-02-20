@@ -3,12 +3,11 @@ const { storeAuthTS } = require('./storeAuthTS');
 const { genID } = require('./helpers/genID.js');
 const { genToken } = require('./helpers/genToken');
 const { hash } = require('./helpers/crypto');
+const { getBody } = require('./helpers/getBody');
 
 async function auth(request, response) {
-  const chunks = [];
-  for await (const chunk of request) chunks.push(chunk);
   try {
-    const body = JSON.parse(Buffer.concat(chunks).toString());
+    const body = await getBody(request);
     const user = getUsers().find((user) => user.username === body.username);
     if (!user || !await hash.verify(body.password, user.pwdHash)) return { success: false };
     const token = genToken();
