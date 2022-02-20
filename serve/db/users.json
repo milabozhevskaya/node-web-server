@@ -34,5 +34,12 @@
     "username": "PetePeteS",
     "email": "PetePete@mail.ru",
     "pwdHash": "343e591769910eb3c7430a08bbff1dd5fdb9065202cdb94f61e8d6fc454aaaa4f371ff979edbebc4"
+  },
+  {
+    "id": 6,
+    "name": "PetePete",
+    "username": "PetePeteSer",
+    "email": "PetePeteSer@mail.ru",
+    "pwdHash": "7eb7f76d50613d7e94816d78d2717f9ee6b93191d0183a818a34bde5f0dae4e495e58e389f0d9ca6"
   }
 ]

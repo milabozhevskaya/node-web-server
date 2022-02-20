@@ -4,7 +4,7 @@ regForm.addEventListener('submit', (event) => {
   fetch('http://localhost:3000/api/register', {
     method: "POST",
     body: JSON.stringify(Object.fromEntries(new FormData(regForm)))
-  }).then((response) => console.log(response));
+  }).then((resp) => resp.text()).then(console.log);
 })
 
 // document.body.append('I-m here');
