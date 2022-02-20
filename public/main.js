@@ -7,6 +7,15 @@ regForm.addEventListener('submit', (event) => {
   }).then((resp) => resp.text()).then(console.log);
 })
 
+const authForm = document.getElementById('auth');
+
+authForm.addEventListener('submit', (event) => {
+  fetch('http://localhost:3000/api/auth', {
+    method: "POST",
+    body: JSON.stringify(Object.fromEntries(new FormData(authForm)))
+  }).then((resp) => resp.text()).then(console.log);
+})
+
 // document.body.append('I-m here');
 const enteredNumber = document.querySelector('.number');
 
